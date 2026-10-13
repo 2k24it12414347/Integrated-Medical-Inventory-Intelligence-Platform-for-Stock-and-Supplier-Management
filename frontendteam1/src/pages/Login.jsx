@@ -26,6 +26,16 @@ function Login() {
       });
 
       login(response);
+
+      // Single login for all roles (Admin / Pharmacist / Staff).
+      // Everyone lands on /dashboard; the dashboard shows features by role.
+      // If admins need a different page, uncomment below and adjust the
+      // role value after checking console.log(response):
+      //
+      // if (response.role === "ADMIN") {
+      //   navigate("/admin-dashboard");
+      //   return;
+      // }
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
@@ -41,7 +51,6 @@ function Login() {
 
   return (
       <div className="login-page">
-
         {/* Floating medical icons */}
         <div className="floating-icon icon-one">💊</div>
         <div className="floating-icon icon-two">🩺</div>
@@ -49,25 +58,19 @@ function Login() {
         <div className="floating-icon icon-four">🏥</div>
 
         <div className="login-card">
-
           <div className="logo-circle">Ⓜ️</div>
 
-          <div className="brand-badge">
-            HEALTHCARE INVENTORY
-          </div>
+          <div className="brand-badge">HEALTHCARE INVENTORY</div>
 
           <h1>MediStock</h1>
 
-          <p className="subtitle">
-            Smart medicine inventory management
-          </p>
+          <p className="subtitle">Smart medicine inventory management</p>
 
           <div className="security-message">
             🔐 Secure healthcare inventory access
           </div>
 
           <form onSubmit={handleSubmit}>
-
             <div className="form-group">
               <label>Email</label>
 
@@ -85,7 +88,6 @@ function Login() {
               <label>Password</label>
 
               <div className="password-wrapper">
-
                 <input
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
@@ -100,23 +102,14 @@ function Login() {
                     className="password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
                     disabled={loading}
-                    aria-label={
-                      showPassword
-                          ? "Hide password"
-                          : "Show password"
-                    }
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? "🙈" : "👁️"}
                 </button>
-
               </div>
             </div>
 
-            {error && (
-                <p className="error-message">
-                  ⚠️ {error}
-                </p>
-            )}
+            {error && <p className="error-message">⚠️ {error}</p>}
 
             <button
                 type="submit"
@@ -132,31 +125,15 @@ function Login() {
                   "Login"
               )}
             </button>
-
           </form>
 
-          <div className="login-divider">
-            <span>OR</span>
-          </div>
-
-          <Link
-              to="/admin-login"
-              className="admin-login-link"
-          >
-            👑 Admin Login
-          </Link>
-
           <p className="account-text">
-            Don't have an account?{" "}
-            <Link to="/register">
-              Register here
-            </Link>
+            Don't have an account? <Link to="/register">Register here</Link>
           </p>
 
           <p className="login-footer">
             MediStock • Secure & Reliable Healthcare Management
           </p>
-
         </div>
       </div>
   );
