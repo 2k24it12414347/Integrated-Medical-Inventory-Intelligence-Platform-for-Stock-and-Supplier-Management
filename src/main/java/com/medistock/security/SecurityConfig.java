@@ -1,3 +1,4 @@
+
 package com.medistock.security;
 
 import org.springframework.context.annotation.Bean;
@@ -30,12 +31,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
 
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors ->
+                        cors.configurationSource(corsConfigurationSource())
+                )
 
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -43,12 +47,13 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // CORS preflight
+                        // Allow CORS preflight requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Public authentication endpoints
+                        // Public endpoints
                         .requestMatchers(
                                 "/",
+                                "/health",
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/error",
@@ -57,12 +62,10 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
 
+                        // Authenticated users
+                        .requestMatchers("/api/auth/me").authenticated()
 
-                        // Any authenticated user
-                        .requestMatchers("/api/auth/me")
-                        .authenticated()
-
-                        // Medicine
+                        // Medicine permissions
                         .requestMatchers(HttpMethod.GET, "/api/medicines/**")
                         .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
 
@@ -75,7 +78,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/medicines/**")
                         .hasRole("ADMIN")
 
-                        // Supplier
+                        // Supplier permissions
                         .requestMatchers(HttpMethod.GET, "/api/suppliers/**")
                         .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
 
@@ -88,7 +91,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/suppliers/**")
                         .hasRole("ADMIN")
 
-                        // Inventory
+                        // Inventory permissions
                         .requestMatchers(HttpMethod.GET, "/api/inventory/**")
                         .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
 
@@ -101,7 +104,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/inventory/**")
                         .hasRole("ADMIN")
 
-                        // Everything else requires authentication
+                        // All remaining endpoints require authentication
                         .anyRequest().authenticated()
                 )
 
