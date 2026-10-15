@@ -8,11 +8,18 @@ import com.medistock.entity.User;
 import com.medistock.repository.RoleRepository;
 import com.medistock.repository.UserRepository;
 import com.medistock.security.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(AuthService.class);
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -34,63 +41,114 @@ public class AuthService {
     // REGISTER
     public String register(RegisterRequest request) {
 
-        // Check if email already exists
         if (userRepository.existsByEmail(request.getEmail())) {
             return "Email already registered";
         }
 
-        // Find selected role
-        System.out.println("REGISTER ROLE RECEIVED: [" + request.getRole() + "]");
+        log.info("REGISTER: Role received");
 
         Role role = roleRepository.findByRoleName(request.getRole())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
-        // Create new user
-        User user = new User();
 
+        User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
 
-        // Hash password using BCrypt
         user.setPasswordHash(
                 passwordEncoder.encode(request.getPassword())
         );
 
         user.setRole(role);
-
-        // Save user
         userRepository.save(user);
 
         return "User registered successfully";
     }
 
-    // LOGIN
+    // LOGIN WITH PERFORMANCE TIMING
     public LoginResponse login(LoginRequest request) {
 
-        // Find user by email
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        // Check password
-        if (!passwordEncoder.matches(
-                request.getPassword(),
-                user.getPasswordHash()
-        )) {
-            throw new RuntimeException("Invalid email or password");
+        long totalStart = System.nanoTime();
+
+        long userLookupMs = 0;
+        long passwordCheckMs = 0;
+        long roleReadMs = 0;
+        long jwtGenerationMs = 0;
+
+        try {
+            // 1. Find user in database
+            long stepStart = System.nanoTime();
+
+            Optional<User> userOptional =
+                    userRepository.findByEmail(request.getEmail());
+
+            userLookupMs = (System.nanoTime() - stepStart)
+                    / 1_000_000;
+
+            User user = userOptional.orElseThrow(
+                    () -> new RuntimeException(
+                            "Invalid email or password"
+                    )
+            );
+
+            // 2. Verify password using BCrypt
+            stepStart = System.nanoTime();
+
+            boolean passwordMatches = passwordEncoder.matches(
+                    request.getPassword(),
+                    user.getPasswordHash()
+            );
+
+            passwordCheckMs = (System.nanoTime() - stepStart)
+                    / 1_000_000;
+
+            if (!passwordMatches) {
+                throw new RuntimeException(
+                        "Invalid email or password"
+                );
+            }
+
+            // 3. Read role
+            stepStart = System.nanoTime();
+
+            String role = user.getRole() != null
+                    ? user.getRole().getRoleName()
+                    : null;
+
+            roleReadMs = (System.nanoTime() - stepStart)
+                    / 1_000_000;
+
+            // 4. Generate JWT
+            stepStart = System.nanoTime();
+
+            String token = jwtUtil.generateToken(
+                    user.getEmail(),
+                    role
+            );
+
+            jwtGenerationMs = (System.nanoTime() - stepStart)
+                    / 1_000_000;
+
+            return new LoginResponse(
+                    token,
+                    user.getName(),
+                    user.getEmail(),
+                    role
+            );
+
+        } finally {
+            long totalMs = (System.nanoTime() - totalStart)
+                    / 1_000_000;
+
+            log.info(
+                    "LOGIN_TIMING total={}ms, userLookup={}ms, " +
+                            "passwordCheck={}ms, roleRead={}ms, jwtGeneration={}ms",
+                    totalMs,
+                    userLookupMs,
+                    passwordCheckMs,
+                    roleReadMs,
+                    jwtGenerationMs
+            );
         }
-
-        // Get role name
-        String role = user.getRole() != null
-                ? user.getRole().getRoleName()
-                : null;
-
-        // Generate JWT (now includes role)
-        String token = jwtUtil.generateToken(user.getEmail(), role);
-
-        return new LoginResponse(
-                token,
-                user.getName(),
-                user.getEmail(),
-                role
-        );
     }
 }

@@ -380,16 +380,10 @@ export default function InventoryIntelligenceDashboard() {
 
   const handleStatusFilter = useCallback(
       (status) => {
-        console.log(
-            "Status filter selected:",
-            status
-        );
-
         setStatusFilter(status);
       },
       []
   );
-
   /* =======================================================
      ADD STATUS TO MEDICINES
      ======================================================= */
@@ -908,30 +902,11 @@ export default function InventoryIntelligenceDashboard() {
             </div>
 
             {/* STATUS FILTERS */}
-            <div
-                className="filter-buttons"
-                style={{
-                  display: "flex",
-                  gap: "8px",
-                  position: "relative",
-                  zIndex: 9999,
-                  pointerEvents: "auto",
-                }}
-            >
-
+            <div className="filter-buttons">
               <button
                   type="button"
                   className={statusFilter === "all" ? "active" : ""}
-                  onClick={() => {
-                    console.log("ALL CLICKED");
-                    setStatusFilter("all");
-                  }}
-                  style={{
-                    position: "relative",
-                    zIndex: 10000,
-                    pointerEvents: "auto",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => handleStatusFilter("all")}
               >
                 All statuses
               </button>
@@ -939,16 +914,7 @@ export default function InventoryIntelligenceDashboard() {
               <button
                   type="button"
                   className={statusFilter === "expired" ? "active" : ""}
-                  onClick={() => {
-                    console.log("EXPIRED CLICKED");
-                    setStatusFilter("expired");
-                  }}
-                  style={{
-                    position: "relative",
-                    zIndex: 10000,
-                    pointerEvents: "auto",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => handleStatusFilter("expired")}
               >
                 Expired
               </button>
@@ -956,16 +922,7 @@ export default function InventoryIntelligenceDashboard() {
               <button
                   type="button"
                   className={statusFilter === "expiring" ? "active" : ""}
-                  onClick={() => {
-                    console.log("EXPIRING SOON CLICKED");
-                    setStatusFilter("expiring");
-                  }}
-                  style={{
-                    position: "relative",
-                    zIndex: 10001,
-                    pointerEvents: "auto",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => handleStatusFilter("expiring")}
               >
                 Expiring soon
               </button>
@@ -973,22 +930,11 @@ export default function InventoryIntelligenceDashboard() {
               <button
                   type="button"
                   className={statusFilter === "valid" ? "active" : ""}
-                  onClick={() => {
-                    console.log("VALID CLICKED");
-                    setStatusFilter("valid");
-                  }}
-                  style={{
-                    position: "relative",
-                    zIndex: 10000,
-                    pointerEvents: "auto",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => handleStatusFilter("valid")}
               >
                 Valid
               </button>
-
             </div>
-
             {/* CATEGORY */}
 
             <select

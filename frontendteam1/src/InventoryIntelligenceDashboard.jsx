@@ -48,8 +48,12 @@ const API_CONFIG = {
 // 2. API GET
 // ------------------------------------------------------------
 
-async function apiGet(path, token) {
-  const res = await fetch(`${API_CONFIG.baseUrl}${path}`, {
+async function apiGet(path, token)
+{
+
+    console.log("Inventory API URL:", `${API_CONFIG.baseUrl}${path}`);
+
+    const res = await fetch(`${API_CONFIG.baseUrl}${path}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
