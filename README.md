@@ -20,6 +20,52 @@ Managing medical inventory requires accurate stock records, timely expiry monito
 - **Analytics Dashboard:** View inventory summaries and stock-related insights.
 - **Reporting:** Access inventory reports and supported export functionality.
 
+## Application Screenshots
+
+The following screenshots showcase the application's interface and different features.
+
+
+
+![Screenshot 1](screenshots/Screenshot%202026-11-21%20094023.png)
+
+![Screenshot 2](screenshots/Screenshot%202026-11-21%20094149.png)
+
+![Screenshot 3](screenshots/Screenshot%202026-11-21%20094238.png)
+
+![Screenshot 4](screenshots/Screenshot%20%282%29.png)
+
+![Screenshot 5](screenshots/Screenshot%202026-11-21%20094432.png)
+
+![Screenshot 6](screenshots/Screenshot%202026-11-21%20094524.png)
+
+![Screenshot 7](screenshots/Screenshot%202026-11-21%20094605.png)
+
+![Screenshot 8](screenshots/Screenshot%202026-11-21%20094648.png)
+
+![Screenshot 9](screenshots/Screenshot%202026-11-21%20094729.png)
+
+![Screenshot 10](screenshots/Screenshot%202026-11-21%20094817.png)
+
+![Screenshot 11](screenshots/Screenshot%202026-11-21%20094900.png)
+
+![Screenshot 12](screenshots/Screenshot%202026-11-21%20094939.png)
+
+![Screenshot 13](screenshots/Screenshot%202026-11-21%20095024.png)
+
+![Screenshot 14](screenshots/Screenshot%202026-11-21%20095107.png)
+
+![Screenshot 15](screenshots/Screenshot%202026-11-21%20095144.png)
+
+![Screenshot 16](screenshots/Screenshot%202026-11-21%20095222.png)
+
+![Screenshot 17](screenshots/Screenshot%202026-11-21%20095259.png)
+
+![Screenshot 18](screenshots/Screenshot%202026-11-21%20095413.png)
+
+![Screenshot 19](screenshots/Screenshot%202026-11-21%20095451.png)
+
+![Screenshot 20](screenshots/Screenshot%202026-11-21%20095534.png)
+
 ## Technical Architecture
 
 | Layer | Technologies |
@@ -37,23 +83,27 @@ Managing medical inventory requires accurate stock records, timely expiry monito
 
 ## Development Milestones
 
-**M1 – Foundation and Authentication**
+### M1 – Foundation and Authentication
+
 - Project initialization and database configuration.
 - Backend authentication and security implementation.
 - JWT-based authentication and password hashing.
 
-**M2 – Medicine and Inventory Management**
+### M2 – Medicine and Inventory Management
+
 - Medicine record management.
 - Supplier information management.
 - Stock management and medicine search functionality.
 
-**M3 – Inventory Intelligence**
+### M3 – Inventory Intelligence
+
 - Medicine expiry monitoring.
 - Low-stock alerts.
 - Inventory analytics and dashboard functionality.
 - Reporting capabilities.
 
-**M4 – Testing and Stabilization**
+### M4 – Testing and Stabilization
+
 - Backend API testing and validation.
 - Edge-case handling and reliability improvements.
 - Configuration and deployment-related work.
@@ -62,7 +112,7 @@ Managing medical inventory requires accurate stock records, timely expiry monito
 
 **Primary Area: Backend Development – Inventory & Analytics**
 
-My work primarily focused on backend inventory and analytics functionality.
+My primary responsibility in this collaborative project focused on backend inventory and analytics functionality.
 
 - Developed and maintained test coverage for inventory and analytics-related backend functionality.
 - Wrote unit tests using **JUnit and Mockito**.
@@ -82,14 +132,22 @@ My work primarily focused on backend inventory and analytics functionality.
 
 ## Key Learnings
 
-This project provided practical experience in developing a full-stack application, integrating frontend and backend services, designing and testing REST APIs, working with relational databases, and improving backend reliability through unit testing.
+This project provided practical experience in:
+
+- Developing and understanding a full-stack application.
+- Integrating frontend and backend services.
+- Designing and testing REST APIs.
+- Working with relational databases.
+- Implementing authentication and application security.
+- Improving backend reliability through unit testing.
+- Collaborating through Git and GitHub.
 
 ## Internship Information
 
-**Program:** Infosys Springboard Virtual Internship 7.0  
-**Batch:** 3  
-**Project:** Integrated Medical Inventory Intelligence Platform for Stock and Supplier Management  
-**Project Type:** Collaborative Full-Stack Development Project
+- **Program:** Infosys Springboard Virtual Internship 7.0
+- **Batch:** 3
+- **Project:** Integrated Medical Inventory Intelligence Platform for Stock and Supplier Management
+- **Project Type:** Collaborative Full-Stack Development Project
 
 ---
 
